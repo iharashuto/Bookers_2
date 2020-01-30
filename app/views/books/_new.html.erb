@@ -1,0 +1,14 @@
+
+<h2>New book</h2>
+<%= form_for(book) do |f| %>
+
+	<h5>Title</h5>
+	<%= f.text_field :title %>
+
+	<h5>Opinion</h5>
+	<%= f.text_area :body %>
+
+	<br><%= f.submit "Create Book", class: "btn btn-primary col-xs-12" %>
+
+<% end %>
+

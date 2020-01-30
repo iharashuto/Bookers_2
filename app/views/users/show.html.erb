@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="row">
+		<% if flash[:notice] %>
+	<div class="flash">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+		<div class="col-xs-3">
+        <%= render "users/userinfo",user: @user %>
+        <%= render "books/new",book: @book %>
+		</div>
+		<div  class="col-xs-9">
+
+			<h2>Books</h2>
+			<table class="table  table-hover table-inverse">
+				<thead>
+				<tr>
+					<th></th>
+					<th>Title</th>
+					<th>Opinion</th>
+				</tr>
+				</thead>
+				<% @user.books.each do |book| %>
+			<tbody>
+				<tr>
+				    <td><%= attachment_image_tag book.user, :profile_image, :fill,70,70,format:"jpg",fallback: "no_image.jpg", size:'40x40'  %></td>
+				    <td><%= link_to book.title, book_path(book.id) %></td>
+				    <td><%= book.body %></td>
+				</tr>
+			</tbody>
+			<% end %>
+			</table>
+		</div>
+	   </div>
+	</div>

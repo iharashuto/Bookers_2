@@ -1,0 +1,27 @@
+	<main>
+	  <div class="container">
+	  	<div class="row">
+	  			<% if flash[:notice] %>
+	<div class="flash">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+	  		</div>
+	  		<div class="col-md-3"></div>
+	  		<div class="col-md-6">
+	  		<h2 class="titleber">welcome to <span class="glyphicon glyphicon-book" aria-hidden="true"><strong>Bookers</strong> !!</span>
+	  		</h2>
+		    <p>in <span class="glyphicon glyphicon-book" aria-hidden="true"></span><strong>Bookers</strong>,</p>
+		    <p>you can share exchange tour opinions,inoressions,and emotions<br>about various book!</p>
+
+				<%= link_to "Log in", new_user_session_path, class: "btn btn-info col-xs-10"%>
+			    <!-- <button type="button" class="btn btn-info btn-block">Log in</button><br> -->
+			    <%= link_to "Sign Up",new_user_registration_path, class: "btn btn-success col-xs-10"%>
+			    <!-- <button type="button" class="btn btn-success btn-block">sign in</button> -->
+			</div>
+			</div>
+		</div>
+	    </div>
+	</main>
+
+
