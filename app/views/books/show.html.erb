@@ -15,13 +15,29 @@
 			<h2>Book detail</h2>
 			<thead>
 			<table class="table  table-hover table-inverse">
-				
 				<tr>
 					<th><%= attachment_image_tag @book.user, :profile_image, :fill,70,70,format:"jpg",fallback: "no_image.jpg", size:'40x40'  %>
 						<br>
 						<%= link_to @book.user.name, user_path(@book.user) %></th>
 					<th><%= @book.title %></th>
 					<th><%= @book.body %></th>
+
+					<% if @book.favorited_by?(current_user) %>
+					 <th>
+					 	<%=link_to favorite_path(@book), method: :delete do %>
+					 	  <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+					 	  <%= @book.faborites.count %>いいね
+					 	 <% end %>
+					 </th>
+					 <% elsif %>
+					 <th>
+					 	<%= link_to favorite_path(@book), method: :book do %>
+					 	  <i class="fa fa-heart-o" aria-hidden="true"></i>
+					 	  <%= @book.faborites.count %>いいね
+					 	<% end %>
+					 </th>
+					<% end %>
+
 					<% if current_user.id == @book.user_id %>
 					<th><%= link_to "Edit", edit_book_path(@book), class: "btn btn-success" %></th>
 					<th><%= link_to "Destroy", book_path(@book), method: :delete, data: { confirm: "本当に消しますか？" } ,class: "btn btn-danger" %></th>
