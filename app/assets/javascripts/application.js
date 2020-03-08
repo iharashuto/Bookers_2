@@ -16,13 +16,7 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require_tree .
-var title = "javascriptが使えました";
-alert(title);
-$(document).ready(function () {
-	$('.jquery').on('click', function(){
-		$(this).css('color','red');
-	});
-});
+
 $(document).ready(function () {
   $("#theTarget").skippr({
       // スライドショーの変化 ("fade" or "slide")

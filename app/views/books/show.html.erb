@@ -8,43 +8,86 @@
       </div>
     <% end %>
     
-        <%= render "users/userinfo",user: @book.user %>
-        <%= render "books/new",book: @new_book %>
-		</div>
-		<div class="col-xs-9">
-			<h2>Book detail</h2>
-			<thead>
-			<table class="table  table-hover table-inverse">
-				<tr>
-					<th><%= attachment_image_tag @book.user, :profile_image, :fill,70,70,format:"jpg",fallback: "no_image.jpg", size:'40x40'  %>
-						<br>
-						<%= link_to @book.user.name, user_path(@book.user) %></th>
-					<th><%= @book.title %></th>
-					<th><%= @book.body %></th>
+	<%= render "users/userinfo",user: @book.user %>
+	<%= render "books/new",book: @new_book %>
+	</div>
+	<div class="col-xs-9">
+		<h2>Book detail</h2>
+		<thead>
+		<table class="table  table-hover table-inverse">
+			<tr>
+			<th><%= attachment_image_tag @book.user, :profile_image, :fill,70,70,format:"jpg",fallback: "no_image.jpg", size:'40x40'  %>
+				<br>
+				<%= link_to @book.user.name, user_path(@book.user) %></th>
+			<th><%= @book.title %></th>
+			<th><%= @book.body %></th>
 
-					<% if @book.favorited_by?(current_user) %>
-					 <th>
-					 	<%=link_to favorite_path(@book), method: :delete do %>
-					 	  <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
-					 	  <%= @book.faborites.count %>いいね
-					 	 <% end %>
-					 </th>
-					 <% elsif %>
-					 <th>
-					 	<%= link_to favorite_path(@book), method: :book do %>
-					 	  <i class="fa fa-heart-o" aria-hidden="true"></i>
-					 	  <%= @book.faborites.count %>いいね
-					 	<% end %>
-					 </th>
-					<% end %>
 
-					<% if current_user.id == @book.user_id %>
-					<th><%= link_to "Edit", edit_book_path(@book), class: "btn btn-success" %></th>
-					<th><%= link_to "Destroy", book_path(@book), method: :delete, data: { confirm: "本当に消しますか？" } ,class: "btn btn-danger" %></th>
-					<% end %>
-				</tr>
-			</thead>
-			</table>
-		</div>
+
+
+			<% if @book.favorited_by?(current_user) %>
+			 <th>
+			 	<%=link_to book_favorites_path(@book), method: :delete do %>
+			 	  <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+			 	  <%= @book.favorites.count %>
+			 	 <% end %>
+			 </th>
+			 <% elsif %>
+			 <th>
+			 	<%= link_to book_favorites_path(@book), method: :post do %>
+			 	  <i class="fa fa-heart like-btn" aria-hidden="true" style="color: #808080;"></i>
+			 	  <%= @book.favorites.count %>
+			 	<% end %>
+			 </th>
+			<% end %>
+
+			<th>
+			  <i class="fa fa-comment"></i>
+			  <a href="#comments"><%= @book.book_comments.count %></a>
+			</th>
+			<% if current_user.id == @book.user_id %>
+			<th><%= link_to "Edit", edit_book_path(@book), class: "btn btn-success" %></th>
+			<th><%= link_to "Destroy", book_path(@book), method: :delete, data: { confirm: "本当に消しますか？" } ,class: "btn btn-danger" %></th>
+			<% end %>
+			</tr>
+		</thead>
+		</table>
+
+
+
+
+		<% @book.book_comments.each do |book_comment| %>
+        <li class="comment">
+            <div class="comment-body bb">
+                <div class="comment-avatar">
+                    <div class="avatar">
+                        <%= image_tag('sample-author1.jpg', style: "width: 60px; height: 60px;") %>
+                    </div>
+                </div>
+                <div class="comment-text">
+                    <div class="comment-author clearfix">
+                        <a href="#" class="link-author"><%= book_comment.user.name %></a>
+                    </div>
+                    <div class="comment-entry"><%= book_comment.comment %></div>
+                </div>
+            </div>
+        </li>
+    <% end %>
+
+
+    <%= form_for [@book, @book_comment] do |f| %>
+    <div class="row">
+        <div class="col-sm-12">
+            <%= f.text_area :comment, rows:'5', class: "form-control",placeholder: "コメントをここに" %>
+        </div>
+    </div>
+    <%= f.submit "送信する", class: "btn btn-lg btn-base-1 mt-5 pull-right" %>
+<% end %>
+
+
+
+
+
+	  </div>
 	</div>
 </div>
