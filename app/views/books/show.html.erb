@@ -22,29 +22,8 @@
 			<th><%= @book.title %></th>
 			<th><%= @book.body %></th>
 
+            <%= render 'books/favorites', book: @book %>
 
-
-
-			<% if @book.favorited_by?(current_user) %>
-			 <th>
-			 	<%=link_to book_favorites_path(@book), method: :delete do %>
-			 	  <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
-			 	  <%= @book.favorites.count %>
-			 	 <% end %>
-			 </th>
-			 <% elsif %>
-			 <th>
-			 	<%= link_to book_favorites_path(@book), method: :post do %>
-			 	  <i class="fa fa-heart like-btn" aria-hidden="true" style="color: #808080;"></i>
-			 	  <%= @book.favorites.count %>
-			 	<% end %>
-			 </th>
-			<% end %>
-
-			<th>
-			  <i class="fa fa-comment"></i>
-			  <a href="#comments"><%= @book.book_comments.count %></a>
-			</th>
 			<% if current_user.id == @book.user_id %>
 			<th><%= link_to "Edit", edit_book_path(@book), class: "btn btn-success" %></th>
 			<th><%= link_to "Destroy", book_path(@book), method: :delete, data: { confirm: "本当に消しますか？" } ,class: "btn btn-danger" %></th>
@@ -55,24 +34,22 @@
 
 
 
-
+        <h4>コメント<%= @book.book_comments.count %>件</h4>
 		<% @book.book_comments.each do |book_comment| %>
-        <li class="comment">
-            <div class="comment-body bb">
-                <div class="comment-avatar">
-                    <div class="avatar">
-                        <%= image_tag('sample-author1.jpg', style: "width: 60px; height: 60px;") %>
-                    </div>
-                </div>
-                <div class="comment-text">
-                    <div class="comment-author clearfix">
-                        <a href="#" class="link-author"><%= book_comment.user.name %></a>
-                    </div>
-                    <div class="comment-entry"><%= book_comment.comment %></div>
-                </div>
-            </div>
-        </li>
-    <% end %>
+            <table class="table  table-hover table-inverse">
+			  <tr>
+			    <th>
+                  <%= link_to user_path(book_comment.user) do %>
+                  <%= book_comment.user.name %>
+                  <% end %>
+                  <%= book_comment.comment %>
+                  <% if current_user.id == book_comment.user.id %>
+                  <%= link_to "削除", book_book_comment_path(@book, book_comment), method: :delete %>
+                  <% end %>
+                </th>
+              </tr>
+            </table>
+        <% end %>
 
 
     <%= form_for [@book, @book_comment] do |f| %>
